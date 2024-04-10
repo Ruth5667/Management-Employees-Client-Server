@@ -17,9 +17,10 @@
         </div><br>
 
         <div class="form-group">
-            <label for="dateOfBirth">BirthDate: </label>
+            <label for="dateOfBirth">BirthDate(required, must be 16 or older): </label>
             <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
-                </div><br>
+            <div>{{ getErrorMessage('birthDate') }}</div>
+        </div><br>
 
         <div class="form-group mb-3">
             <label for="gender" class="form-label">Gender:</label>

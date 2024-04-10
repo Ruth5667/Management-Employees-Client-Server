@@ -93,15 +93,38 @@ export class AddEmployeeComponent implements OnInit {
       })
       this.NewEmployeeForm = this.formBuilder.group
   ({
-    "firstName": new FormControl("", [Validators.required]),
-    "lastName": new FormControl("", [Validators.required]),
+    "firstName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
+    "lastName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
     "tz": new FormControl("", [Validators.required]),
-    "dateOfBirth": new FormControl(new Date, [Validators.required]),
-    "beginningOfWork": new FormControl(new Date, [Validators.required]),
+    "dateOfBirth": new FormControl(new Date, [Validators.required,  this.validateAge]),//Validate age
+    "beginningOfWork": new FormControl(new Date, [Validators.required,this.validateMinEntryDate]),//Validate Begining Date
     "gender": new FormControl(0),
     "roles": this.roles
   })
   }
-  
-
+  validateAge(control: FormControl): { [key: string]: boolean } | null {
+    const birthDate = new Date(control.value);
+    const today = new Date();
+    const age = Math.floor((today.getTime() - birthDate.getTime()) / (1000 * 3600 * 24 * 365.25));
+    return age < 16 ? { age: true } : null;
+  }
+  validateMinEntryDate(control: FormControl): { [key: string]: boolean } | null {
+    const today = new Date();
+    const minEntryDate = new Date(today.getFullYear() - 4, today.getMonth(), today.getDate()); // Minimum entry date: 4 years ago
+    return control.value < minEntryDate ? { minEntryDate: true } : null;
+  }
+  getErrorMessage(fieldName: string): string {
+    const field = this.NewEmployeeForm.get(fieldName);
+    if (field?.hasError('required')) {
+      return 'Is required.';
+    } else if (field?.hasError('pattern')) {
+      return 'Contains only letters.';
+    } else if (field?.hasError('age')) {
+      return 'Must be 16 years or older.';
+    } else if (field?.hasError('minEntryDate')) {
+      return 'Begining date must be at least four years in the past.';
+    }
+    return '';
+  }
 }
+

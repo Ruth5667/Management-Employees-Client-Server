@@ -7,22 +7,8 @@ import { Employee } from '../models/employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddRoleToEmployeeComponent } from "../add-role-to-employee/add-role-to-employee.component";
 import { RoleToEmployee } from '../models/roleToEmployee';
-// function tenYearsAfterValidator(control: FormControl): { [key: string]: boolean } | null {
-//   const selectedDate = new Date(control.value);
-//   const today = new Date();
-//   return selectedDate < today ? null : { futureDate: true };
-//}
-// function tenYearsAfterValidator(dateOfBirthControl: FormControl): any {
-//   return (control: FormControl): { [key: string]: boolean } | null => {
-//     const dateOfBirth = new Date(dateOfBirthControl.value);
-//     const beginningOfWork = new Date(control.value);
-
-//     const differenceInYears = beginningOfWork.getFullYear() - dateOfBirth.getFullYear();
-
-//     return differenceInYears >= 10 ? null : { 'tenYearsAfter': true };
-//   };
-// }
-function validateIDNumber(id_num: string): boolean {
+//valid Israel Identity:
+function  validateIDNumber(id_num: string): boolean {
   if (!id_num) return false;
 
   const id_12_digits: number[] = [1, 2, 1, 2, 1, 2, 1, 2, 1];
@@ -121,28 +107,44 @@ export class EditEmployeComponent implements OnInit {
         this.editRoles = true
       },
     })
-    // const dateOfBirthControl = this.EditEmployeeForm.get('dateOfBirth');
-    // const beginningOfWorkControl = new FormControl(new Date(), [Validators.required]);
-    // if (dateOfBirthControl) {
-    //   beginningOfWorkControl.setValidators([Validators.required, tenYearsAfterValidator(dateOfBirthControl)]);
-    // } else {
-    //   console.error('dateOfBirth control is not defined');
-    // }
     this.EditEmployeeForm = this.formBuilder.group({
       "id": new FormControl(1111),
       "firstName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
       "lastName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
       "tz": new FormControl("", [Validators.required]),
-      "dateOfBirth": new FormControl(new Date, [Validators.required]),
-      "beginningOfWork": new FormControl(new Date, [Validators.required]),
+      "dateOfBirth": new FormControl(new Date, [Validators.required, this.validateAge]),//Validate age
+      "beginningOfWork": new FormControl(new Date, [Validators.required, this.validateMinEntryDate]),//validete Begining Date
       "gender": new FormControl(0),
       "roles": new FormArray([])
     });
   }
-
-
-
-
-
-
+  validateAge(control: FormControl): { [key: string]: boolean } | null {
+    const birthDate = new Date(control.value);
+    const today = new Date();
+    const age = Math.floor((today.getTime() - birthDate.getTime()) / (1000 * 3600 * 24 * 365.25));
+    return age < 16 ? { age: true } : null;
+  }
+  validateMinEntryDate(control: FormControl): { [key: string]: boolean } | null {
+    const today = new Date();
+    const minEntryDate = new Date(today.getFullYear() - 4, today.getMonth(), today.getDate()); // Minimum entry date: 4 years ago
+    return control.value < minEntryDate ? { minEntryDate: true } : null;
+  }
+  getErrorMessage(fieldName: string): string {
+    const field = this.EditEmployeeForm.get(fieldName);
+    if (field?.hasError('required')) {
+      return 'Is required.';
+    } else if (field?.hasError('pattern')) {
+      return 'Contains only letters.';
+    } else if (field?.hasError('age')) {
+      return 'Must be 16 years or older.';
+    } else if (field?.hasError('minEntryDate')) {
+      return 'Begining date must be at least four years in the past.';
+    }
+    return '';
+  }
 }
+
+
+
+
+
