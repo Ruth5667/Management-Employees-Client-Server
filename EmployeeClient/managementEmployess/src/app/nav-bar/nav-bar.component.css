@@ -1,10 +1,9 @@
 
 .navbar {
-    background-color: #333; /* רקע כהה לתפריט */
-    /* padding: 10px 20px; ריווח בתוך התפריט */
-    display: flex; /* יישור האלמנטים באופן אופקי */
-    justify-content: space-between; /* מרחיב את הרווח בין האלמנטים */
-    align-items: center; /* יישור האלמנטים למרכז */
+    background-color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .navbar-nav {
