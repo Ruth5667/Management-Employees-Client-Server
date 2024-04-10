@@ -10,18 +10,15 @@
         <div class="form-group">
             <label for="lastName">Last Name:</label>
             <input type="text" class="form-control" id="lastName" formControlName="lastName">
-            <div class="error-message" *ngIf="showError && NewEmployeeForm.get('lastName')?.errors?.['required']">Last Name is required.</div>
-            <div class="error-message" *ngIf="showError && NewEmployeeForm.get('lastName')?.errors?.['pattern']">Last Name must contain only letters.</div>
         <br>
 
         <div class="form-group">
             <label for="tz">Tz:</label>
             <input class="form-control" id="tz" formControlName="tz">
-            <div class="error-message" *ngIf="showError && NewEmployeeForm.get('tz')?.errors?.['required']">tz is required.</div>
         </div><br>
 
         <div class="form-group">
-            <label for="dateOfBirth">BirthDate: </label>
+            <label for="dateOfBirth">Birth-Date: </label>
             <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
         </div><br>
 
@@ -40,7 +37,7 @@
         </div>
 
         <div class="form-group">
-            <label for="beginningOfWork">Begining Of Work:</label>
+            <label for="beginningOfWork">Entry Date:</label>
             <input type="date" id="beginningOfWork" class="form-control" formControlName="beginningOfWork">
         </div><br>
         <span (click)="addRoles()" class="material-symbols-outlined clickMe">

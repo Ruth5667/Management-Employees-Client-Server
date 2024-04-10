@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AddRoleToEmployeeComponent } from "../add-role-to-employee/add-role-to-employee.component";
 import { RoleToEmployee } from '../models/roleToEmployee';
 //valid Israel Identity:
-function  validateIDNumber(id_num: string): boolean {
+function validateIDNumber(id_num: string): boolean {
   if (!id_num) return false;
 
   const id_12_digits: number[] = [1, 2, 1, 2, 1, 2, 1, 2, 1];
@@ -39,8 +39,6 @@ export class EditEmployeComponent implements OnInit {
   addRole!: boolean;
   countAdd: number = 0;
   EditEmployeeForm!: FormGroup;
-  today = new Date();
-  tenYearsAgo = new Date(this.today.getFullYear() - 10, this.today.getMonth(), this.today.getDate());
   tzFormControl: any;
   addRoles() {
     this.addRole = true
@@ -48,15 +46,35 @@ export class EditEmployeComponent implements OnInit {
     this.countAdd++;
   }
   addItem($event: RoleToEmployee) {
+    // const rolesArray = this.EditEmployeeForm.get('roles') as FormArray;
+    // const newRoleControl = new FormControl($event);
+    // if (!rolesArray.controls.some(control => control.value === newRoleControl.value)) {
+    //   rolesArray.push(newRoleControl);
+    // } else {
+    //   alert('Control already exists in the FormArray');
+    // }
     (this.EditEmployeeForm.get('roles') as FormArray).push(new FormControl($event));
-    console.log(this.EditEmployeeForm);
   }
   range(start: number, end: number): number[] {
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
-
+  deleteRole(index: number) {
+//     // const rolesArray = this.EditEmployeeForm.get('roles') as FormArray;
+//     // const index = rolesArray.controls.findIndex(control => control.value.roleId === roleId);
+//     // if (index !== -1) {
+//     //   rolesArray.removeAt(index);
+//     console.log(index,"index edit");
+    console.log((this.EditEmployeeForm.get('roles') as FormArray).at(index),"before");
+    (this.EditEmployeeForm.get('roles') as FormArray).removeAt(index);
+console.log((this.EditEmployeeForm.get('roles') as FormArray).at(index),"after")
+   
+//     // else {
+//     //   console.log('Role with ID', roleId, 'was not found');
+//     //}
+  
+ } 
   updateEmployee() {
-    this.tzFormControl = this.EditEmployeeForm.get('tz');
+    this.tzFormControl = this.EditEmployeeForm?.get('tz');
     if (this.tzFormControl.value) {
       if (!validateIDNumber(this.tzFormControl.value)) {
         alert("tz is not valid")

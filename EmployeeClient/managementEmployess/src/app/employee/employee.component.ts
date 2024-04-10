@@ -29,7 +29,7 @@ export class EmployeeComponent {
           });
           console.log(err);
         },
-        next: (res) => {
+        next: () => {
           Swal.fire({
             icon: 'success',
             title: 'deleted',

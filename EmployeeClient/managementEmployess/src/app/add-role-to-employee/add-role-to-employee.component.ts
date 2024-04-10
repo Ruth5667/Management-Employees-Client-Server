@@ -17,6 +17,7 @@ import { Employee } from '../models/employee.model';
 
 export class AddRoleToEmployeeComponent implements OnInit {
   @Output() dataEvent = new EventEmitter<RoleToEmployee>();
+  @Output() deleteRoleEvent: EventEmitter<number> = new EventEmitter<number>();
   @Input() employee!: Employee;
   public rolesList: Role[] = [];
   public updatedRole!: Role;
@@ -64,17 +65,27 @@ export class AddRoleToEmployeeComponent implements OnInit {
   }
   addRoleToEmployee() {
     var rolese = this.selectedRoleId?.split('|');
-    this.roleData.controls['role'].setValue({ id: parseInt(rolese[0]), name: rolese[1] });
-    this.dataEvent.emit(this.roleData.value as RoleToEmployee);
-    this.selectedRoles.push(this.roleData.value as RoleToEmployee);
-    this.selectedRoleId = this.roleData.value.role.id.toString();
-    Swal.fire({
-      icon: 'success',
-      text: 'The role added!',
-      showConfirmButton: false, // ללא כפתור
-      timer: 2000,
+    if (!this.selectedRoles.some(role => role.roleId === parseInt(rolese[0]))) {
+      this.roleData.controls['role'].setValue({ id: parseInt(rolese[0]), name: rolese[1] });
+      this.dataEvent.emit(this.roleData.value as RoleToEmployee);
+      this.selectedRoles.push(this.roleData.value as RoleToEmployee);
+      this.selectedRoleId = this.roleData.value.role.id.toString();
+      Swal.fire({
+        icon: 'success',
+        text: 'The role added!',
+        showConfirmButton: false,
+        timer: 2000,
 
-    })
+      })
+    }
+    else {
+      Swal.fire({
+        icon: 'error',
+        text: 'The role had already added!',
+        showConfirmButton: false,
+        timer: 2000,
+      })
+    }
   }
   constructor(private _roleService: RolesService) { }
   roleData: FormGroup = new FormGroup({
@@ -82,5 +93,11 @@ export class AddRoleToEmployeeComponent implements OnInit {
     "management": new FormControl(false),
     "role": new FormControl<Role>({ "id": 1, "name": "" })
   });
+  deleteRole(index: number) {
+    this.deleteRoleEvent.emit(index);
+    this.employee.roles?.splice(index,1);
+    this.selectedRoles.splice(index,1);    
+  }
 }
+
 

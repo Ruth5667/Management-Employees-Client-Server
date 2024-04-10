@@ -1,4 +1,4 @@
-<div class="role-details" *ngFor="let role of selectedRoles">
+<div class="role-details" *ngFor="let role of selectedRoles; let i = index">
     <div *ngIf="role && role.role" class="role-property">
         <span class="property-label">Role Name:</span>
         <span class="property-value">{{ role.role.name }}</span>
@@ -11,6 +11,7 @@
         <span class="property-label">Management:</span>
         <span class="property-value">{{ role.management }}</span>
     </div>
+    <button (click)="deleteRole(i)">Delete</button>
 </div>
 
 

@@ -40,7 +40,6 @@ export class AddEmployeeComponent implements OnInit {
   NewEmployeeForm!: FormGroup;
   addItem($event: RoleToEmployee) {
     (this.NewEmployeeForm.get('roles') as FormArray).push(new FormControl($event));
-    console.log(this.NewEmployeeForm);
   }
   public addRole!: boolean;
   addRoles() {

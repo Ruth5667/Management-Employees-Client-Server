@@ -11,10 +11,10 @@ export class RolesService {
   constructor(private _http: HttpClient) { }
   
   getAllRoles():Observable<Role[]>{
-    return this._http.get<Role[]>(`https://localhost:7033/api/Role`)
+    return this._http.get<Role[]>(`https://localhost:7033/api/Roles`)
   }
   getById(id: number): Observable<Role>{
-    return this._http.get<Role>(`https://localhost:7033/api/Role/${id}`)
+    return this._http.get<Role>(`https://localhost:7033/api/Roles/${id}`)
   }
 }
 
