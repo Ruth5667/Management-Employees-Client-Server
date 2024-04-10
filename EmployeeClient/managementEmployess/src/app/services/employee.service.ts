@@ -29,8 +29,4 @@ getEmployeeById(id: number): Observable<Employee>{
 
 }
 
-//post status
-//get by id
-//
-
 }
