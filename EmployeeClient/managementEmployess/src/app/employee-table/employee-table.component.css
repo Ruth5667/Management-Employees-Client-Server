@@ -1,0 +1,32 @@
+.clickMe{
+    cursor: pointer;
+}
+.search-field {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* רקע אפור בהיר */
+    padding: 5px 10px; /* ריווח בתוך התיבה */
+    border-radius: 5px; /* פינות מעוגלות */
+    border: 1px solid #ccc; /* גבול */
+  }
+  
+  .search-field input {
+    /* flex: 1; תיבת חיפוש תתמלא את רוחב הסליל */
+  /* border: none; לבטל את הגבול */
+  /* background-color: transparent; רקע בהיר כדי להתאים לרקע האפור */
+    width: 150px; /* רוחב השדה */
+    padding: 5px; /* ריווח בתוך השדה */
+    border-radius: 5px; /* פינות מעוגלות לשדה */
+    border: 1px solid #ccc; /* גבול לשדה */
+  }
+  .search-icon {
+    margin-left: 10px; /* ריווח משמאל לאייקון */
+  }
+ 
+  
+  .mm{
+    margin-left: 1300px;
+    cursor: pointer;
+  
+  }
+  

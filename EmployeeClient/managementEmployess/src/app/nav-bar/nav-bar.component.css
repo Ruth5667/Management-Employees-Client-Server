@@ -1,0 +1,40 @@
+
+.navbar {
+    background-color: #333; /* רקע כהה לתפריט */
+    /* padding: 10px 20px; ריווח בתוך התפריט */
+    display: flex; /* יישור האלמנטים באופן אופקי */
+    justify-content: space-between; /* מרחיב את הרווח בין האלמנטים */
+    align-items: center; /* יישור האלמנטים למרכז */
+  }
+  
+  .navbar-nav {
+    list-style-type: none; /* מוחק את הנקודות מהרשימה */
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /* align-items: center; יישור האלמנטים למרכז */
+  }
+  
+  .nav-item {
+    margin-right: 20px; /* ריווח בין הפריטים */
+  }
+  
+  .nav-link {
+    color: white; /* צבע הטקסט */
+    text-decoration: none; /* מוחק קישורים תחתונים */
+  }
+  
+  .nav-link:hover {
+    color: #d12727; /* צבע הטקסט בעכבר מעל הקישור */
+  }
+  
+span{
+    color: white; /* צבע הטקסט */
+    cursor: pointer;
+}
+.material-symbols-outlined {
+    margin-right: 5px;
+  }
+  .nav-item:last-child {
+    margin-right: 0;
+}

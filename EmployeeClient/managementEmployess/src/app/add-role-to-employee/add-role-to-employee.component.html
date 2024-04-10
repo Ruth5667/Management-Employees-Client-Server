@@ -1,0 +1,47 @@
+<!-- <div *ngIf="hasRoles==true"> -->
+<!-- <div *ngFor="let role of selectedRoles">
+        {{role.beginningOfWork}}, {{role.management}}
+    </div> -->
+<div class="role-details" *ngFor="let role of selectedRoles">
+    <div *ngIf="role && role.role" class="role-property">
+        <span class="property-label">Role Name:</span>
+        <span class="property-value">{{ role.role.name }}</span>
+    </div>
+    <div class="role-property">
+        <span class="property-label">Beginning of Work:</span>
+        <span class="property-value">{{ role.beginningOfWork }}</span>
+    </div>
+    <div class="role-property">
+        <span class="property-label">Management:</span>
+        <span class="property-value">{{ role.management }}</span>
+    </div>
+</div>
+
+<!-- </div> -->
+
+
+<div *ngIf="fromEdit==true" class="form-group">
+    <label for="roles">Roles:</label>
+    <select id="roles" class="form-select" (change)="onRoleSelected($event)">
+        <option disabled>Select role:</option>
+        <option *ngFor="let role of rolesList" [value]="role.id + '|' + role.name">{{role.name}}</option>
+    </select>
+    <!-- </div> -->
+    <!-- <div class="container"> -->
+    <div [formGroup]="this.roleData">
+        <!-- <div class="form-group"> -->
+        <label for="management">Management:</label>
+        <select id="management" class="form-select" formControlName="management">
+            <option [value]="true">Is Management</option>
+            <option [value]="false">Is Not Management</option>
+        </select>
+        <label for="beginningOfWork">Date of entry into the position:</label>
+        <input type="date" class="form-control" id="beginningOfWork" formControlName="beginningOfWork">
+        <button type="submit" class="btn btn-outline-success" [disabled]="!this.roleData.valid"
+            (click)="addRoleToEmployee()"><span class="material-symbols-outlined">
+                save
+            </span></button>
+    </div>
+
+</div>
+<!-- </div> -->

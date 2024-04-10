@@ -1,0 +1,102 @@
+<div class="container">
+    <div [formGroup]="this.NewEmployeeForm">
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" class="form-control" id="firstName" formControlName="firstName">
+            <!-- <ng-container *ngIf="this.NewEmployeeForm.controls['Name'].errors as nameError" class="invalid-feedback"> -->
+            <!-- <p *ngIf="nameError['required']"> Recipe name is required!</p> -->
+            <!-- </ng-container> -->
+        </div>
+        <br>
+
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" class="form-control" id="lastName" formControlName="lastName">
+            <!-- <ng-container *ngIf="this.NewEmployeeForm.controls['Name'].errors as nameError" class="invalid-feedback"> -->
+            <!-- <p *ngIf="nameError['required']"> Recipe name is required!</p> -->
+            <!-- </ng-container> -->
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="tz">Identity:</label>
+            <input class="form-control" id="tz" formControlName="tz">
+            <!-- <ng-container *ngIf="this.RecipeForm.controls['password'].errors as nameError" class="invalid-feedback"> -->
+            <!-- <p *ngIf="nameError['required']">Password is required!</p> -->
+            <!-- </ng-container> -->
+        </div><br>
+
+        <div class="form-group">
+            <label for="dateOfBirth">BirthDate: </label>
+            <input type="date" class="form-control" id="dateOfBirth" formControlName="dateOfBirth">
+            <!-- <ng-container *ngIf="this.RecipeForm.controls['preparationTimeInMinutes'].errors as nameError" -->
+            <!-- class="invalid-feedback"> -->
+            <!-- <p *ngIf="nameError['required']">Preparation time is required!</p> -->
+            <!-- </ng-container> -->
+        </div><br>
+
+        <div class="form-group mb-3">
+            <label for="gender" class="form-label">Gender:</label>
+            <span class="material-symbols-outlined">
+                man
+            </span>
+            <span class="material-symbols-outlined">
+                woman
+            </span>
+            <select id="gender" class="form-select" formControlName="gender">
+                <option [value]="0">Male</option>
+                <option [value]="1">Female</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="beginningOfWork">Begining Of Work:</label>
+            <input type="date" id="beginningOfWork" class="form-control" formControlName="beginningOfWork">
+            <!-- <ng-container *ngIf="this.RecipeForm.controls['difficultyLevel'].errors as nameError"> -->
+            <!-- <p *ngIf="nameError['min']">this level is between 1 to 5!</p> -->
+            <!-- <p *ngIf="nameError['max']">this level is between 1 to 5!</p> -->
+            <!-- <p *ngIf="nameError['required']">the file must be full!</p> -->
+            <!-- </ng-container> -->
+        </div><br>
+
+
+
+        <!-- <div class="form-group">
+            <label for="ingredients">Ingredients:</label>
+            <div formArrayName="ingredients">
+                <div *ngFor="control of ingredients.controls; let i = index" class="form-control">
+                    <input (blur)="changeIngredient(ingredients.controls[i].value, i)" type="text"
+                        formControlName="{{i}}" class="form-control">
+                </div>
+            </div>
+        </div><br> -->
+
+        <!-- <div class="form-group">
+            <label for="preparation">Preparation:</label>
+            <div formArrayName="preparation">
+                <div *ngFor="control of preparation.controls; let i = index" class="form-control">
+                    <input (blur)="changePreparation(preparation.controls[i].value, i)"
+                        type="text" formControlName="{{i}}" class="form-control">
+                </div>
+            </div>
+        </div><br> --><span (click)="addRoles()" class="material-symbols-outlined clickMe">
+            school
+        </span>
+        <br>
+        <div *ngFor="let i of range(1, countAdd)">
+            <app-add-role-to-employee [fromEdit]="fromEdit" (dataEvent)="addItem($event)"></app-add-role-to-employee>
+        </div>
+        <!-- <button [disabled]="this.NewEmployeeForm.controls['tz'].value" (click)="addRoles(NewEmployeeForm.controls['tz'].value)" >Add Roles</button> -->
+        <button type="submit" class="btn btn-outline-success" [disabled]="!this.NewEmployeeForm.valid"
+            (click)="addNewEmployee()"><span class="material-symbols-outlined">person_add</span></button>
+
+
+    </div>
+</div>
+
+<!-- <div class="form-group">
+    <label for="roles">Roles:</label>
+    <div *ngFor="let role of rolesList">
+        <input type="checkbox" [id]="role.id" [value]="role.name" (change)="AddRoleToEmployee(role.id,NewEmployeeForm.controls['tz'].value)">
+        <label [for]="role.id">{{ role.name }}</label>
+    </div>
+</div> -->

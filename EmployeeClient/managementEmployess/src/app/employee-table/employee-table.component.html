@@ -1,0 +1,41 @@
+<!-- <div *ngFor="let employee of employeesList">
+<app-employee [employee]="employee"></app-employee>
+</div> -->
+<!-- <button>AddEmployee</button> -->
+
+<div [formGroup]="filterForm" class="filter-form">
+  <div class="search-field">
+    <span class="material-symbols-outlined">
+      search
+    </span>
+    <input class="form-control filter" id="name" formControlName="search" title="Search" placeholder="Search...">
+    <div class="export-icon-container">
+      <span class="material-symbols-outlined mm" title="Export employees to Excel" (click)="exportToExcel()">
+        export_notes
+      </span>
+    </div>
+    
+    
+  </div>
+</div>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Tz</th>
+      <th>FirstName</th>
+      <th>Last Name</th>
+      <th>Begining job</th>
+      <th>action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr *ngFor="let employee of employeesListByFilter">
+      <td>{{ employee.tz }}</td>
+      <td>{{ employee.firstName }}</td>
+      <td>{{ employee.lastName }}</td>
+      <td>{{ employee.beginningOfWork }}</td>
+      <td><app-employee [employee]="employee"></app-employee></td>
+    </tr>
+  </tbody>
+</table>

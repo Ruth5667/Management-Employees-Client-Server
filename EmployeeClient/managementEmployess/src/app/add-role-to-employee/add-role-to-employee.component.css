@@ -1,0 +1,20 @@
+.role-details {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .role-property {
+    margin-bottom: 5px;
+  }
+  
+  .property-label {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .property-value {
+    color: #333;
+  }
+  

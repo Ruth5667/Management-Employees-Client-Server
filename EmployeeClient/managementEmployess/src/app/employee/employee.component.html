@@ -1,0 +1,14 @@
+<ng-container *ngIf="employee">
+    <div class="employee">
+        <!-- <td>{{ employee.Tz }}</td>
+        <td>{{ employee.firstName }}</td>
+        <td>{{ employee.lastName }}</td>
+        <td>{{ employee.beginningOfWork }}</td> -->
+        <td> <span class="material-symbols-outlined clickMe" (click)="edit()">edit</span></td>
+        
+        <td><span class="material-symbols-outlined clickMe" (click)="deleteEmployee()">delete</span></td>
+        
+
+        
+    </div>
+</ng-container>
