@@ -22,14 +22,14 @@ namespace Mng.Service.Services
 
         }
 
-        public Employee GetById(int id)
+        public async Task<Employee> GetById(int id)
         {
-            return _repository.GetById(id);
+            return await _repository.GetById(id);
         }
 
-        public IEnumerable<Employee> Get()
+        public async Task<IEnumerable<Employee>> Get()
         {
-            return _repository.GetEmployees();
+            return await _repository.GetEmployees();
         }
         static bool CheckIDNo(String strID)
         {
@@ -53,24 +53,24 @@ namespace Mng.Service.Services
 
             return (count % 10 == 0);
         }
-        public Employee Post(Employee employee)
+        public async Task<Employee> Post(Employee employee)
         {
-            var existingEmployees =  _repository.GetEmployees();
+            var existingEmployees = await _repository.GetEmployees();
             if (existingEmployees.Any(e => e.Tz == employee.Tz))
             {
                 return null;
             }
             if(CheckIDNo(employee.Tz))
-            return _repository.Post(employee);
+            return await _repository.Post(employee);
             else
             {
                 throw new Exception("the tz is not valid!");
             }
         }
 
-        public Employee Put(int id, Employee employee)
+        public async Task<Employee> Put(int id, Employee employee)
         {
-           return _repository.Put(id, employee);  
+           return await _repository.Put(id, employee);  
         }
 
         public void Delete(int id)
@@ -78,9 +78,9 @@ namespace Mng.Service.Services
             _repository.Delete(id);
         }
 
-        public Employee UpdateStatus(int id)
+        public async Task<Employee> UpdateStatus(int id)
         {
-            return _repository.UpdateStatus(id);
+            return await _repository.UpdateStatus(id);
         }
     }
 }

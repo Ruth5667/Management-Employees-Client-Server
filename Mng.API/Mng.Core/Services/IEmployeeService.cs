@@ -9,23 +9,11 @@ namespace Mng.Core.Services
 {
     public interface IEmployeeService
     {
-        public IEnumerable<Employee> Get();
-        public Employee GetById(int id);
-        public Employee Post(Employee employee);
-        public Employee Put(int id, Employee employee);
+        public Task<IEnumerable<Employee>> Get();
+        public Task<Employee> GetById(int id);
+        public Task<Employee> Post(Employee employee);
+        public Task<Employee> Put(int id, Employee employee);
         public void Delete(int id);
-        public Employee UpdateStatus(int id);
+        public Task<Employee> UpdateStatus(int id);
     }
 }
-/*
- מחלקת עובד:
-*Put(bool status);
- מחלקת תפקיד:
- * GetAll();
- * GetByName();????
-  מחלקת תפקיד לעובד:
- * Post(Role,Employee);
- * Put(RoleId,EmployeeId)
- * Delete(RoleId,EmployeeId)
- * 
-*/

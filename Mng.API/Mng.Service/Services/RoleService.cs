@@ -17,26 +17,26 @@ namespace Mng.Service.Services
             _repository = repository;
 
         }
-        public IEnumerable<Role> GetRoles()
+        public async Task<IEnumerable<Role>> GetRoles()
         {
-            return _repository.GetRoles();
+            return await _repository.GetRoles();
         }
-        public Role GetRoleById(int id)
+        public async Task<Role> GetRoleById(int id)
         {
-            return _repository.GetRoleById(id);
+            return await _repository.GetRoleById(id);
         }
         public void Delete(int id)
         {
              _repository.Delete(id);
         }
-        public Role Post(Role role)
+        public async Task<Role> Post(Role role)
         {
-            return _repository.Post(role);
+            return await _repository.Post(role);
         }
 
-        public Role Put(int id, Role role)
+        public async Task<Role> Put(int id, Role role)
         {
-            return _repository.Put(id,role);
+            return await _repository.Put(id,role);
         }
     }
 }

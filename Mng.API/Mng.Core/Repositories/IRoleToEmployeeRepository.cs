@@ -9,9 +9,8 @@ namespace Mng.Core.Repositories
 {
     public interface IRoleToEmployeeRepository
     {
-        public IEnumerable<RoleToEmployee> GetAll(int employeeId);
-        //public RoleToEmployee Post(int employeeId, int positionId, PositionEmployee positionEmployee);
-        public RoleToEmployee GetRoleByEmployeeId(int employeeId);
-        public RoleToEmployee Post(RoleToEmployee role);
+        public Task<IEnumerable<RoleToEmployee> >GetAll(int employeeId);
+        public Task<RoleToEmployee> GetRoleByEmployeeId(int employeeId);
+        public  Task<RoleToEmployee> Post(RoleToEmployee role);
     }
 }

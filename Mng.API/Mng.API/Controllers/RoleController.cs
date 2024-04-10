@@ -24,11 +24,11 @@ namespace Mng.API.Controllers
         }
         // GET: api/<RoleController>
         [HttpGet]
-        public ActionResult<IEnumerable<RoleDto>> Get()
+        public async Task<ActionResult<IEnumerable<RoleDto>>> Get()
         {
             try
             {
-                var roleList = _roleService.GetRoles();
+                var roleList = await _roleService.GetRoles();
                 var roleListDto = _mapper.Map<IEnumerable<RoleDto>>(roleList);
                 return Ok(roleListDto);
             }
@@ -40,11 +40,11 @@ namespace Mng.API.Controllers
 
         // GET api/<RoleController>/5
         [HttpGet("{id}")]
-        public ActionResult Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
             try
             {
-                var role = _roleService.GetRoleById(id);
+                var role = await _roleService.GetRoleById(id);
                 var roleDto = _mapper.Map<RoleDto>(role);
                 return Ok(roleDto);
             }
@@ -56,11 +56,11 @@ namespace Mng.API.Controllers
 
         // POST api/<RoleController>
         [HttpPost]
-        public ActionResult Post([FromBody] RolePostModel role)
+        public async Task<ActionResult> Post([FromBody] RolePostModel role)
         {
             try
             {
-                var roleToAdd = _roleService.Post(_mapper.Map<Role>(role));
+                var roleToAdd = await _roleService.Post(_mapper.Map<Role>(role));
                 return Ok(roleToAdd);
             }
             catch (Exception ex)
@@ -70,11 +70,11 @@ namespace Mng.API.Controllers
         }
         // PUT api/<RoleController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] RolePostModel role)
+        public async Task<ActionResult> Put(int id, [FromBody] RolePostModel role)
         {            
             try
             {
-                var updateRole = _roleService.Put(id, _mapper.Map<Role>(role));
+                var updateRole = await _roleService.Put(id, _mapper.Map<Role>(role));
                 return Ok(updateRole);
             }
             catch (Exception ex)
@@ -89,7 +89,7 @@ namespace Mng.API.Controllers
         {
             try
             {
-                var role = _roleService.GetRoleById(id);
+                var role =  _roleService.GetRoleById(id);
                 if (role is null)
                 {
                     return NotFound();

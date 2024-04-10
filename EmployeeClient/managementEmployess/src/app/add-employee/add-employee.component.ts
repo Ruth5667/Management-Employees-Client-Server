@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee.model';
 import { Router } from '@angular/router';
@@ -37,6 +37,7 @@ export class AddEmployeeComponent implements OnInit {
   countAdd: number = 0;
   showError!:boolean
   tzFormControl: any;
+  NewEmployeeForm!: FormGroup;
   addItem($event: RoleToEmployee) {
     (this.NewEmployeeForm.get('roles') as FormArray).push(new FormControl($event));
     console.log(this.NewEmployeeForm);
@@ -51,7 +52,7 @@ export class AddEmployeeComponent implements OnInit {
   range(start: number, end: number): number[] {
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
-  constructor(private _employeeService: EmployeeService, private _roleService: RolesService, private router: Router) { }
+  constructor(private formBuilder: FormBuilder, private _employeeService: EmployeeService, private _roleService: RolesService, private router: Router) { }
   public rolesList: Role[] = [];
   roles: FormArray<FormControl<RoleToEmployee>> = new FormArray<FormControl<RoleToEmployee>>([]);
   ngOnInit(): void {
@@ -84,15 +85,14 @@ export class AddEmployeeComponent implements OnInit {
             title: 'Alert',
             text: 'added succesfully',
             icon: 'success',
-            showConfirmButton: false, // ללא כפתור
+            showConfirmButton: false,
             timer: 2000,
           });
           this.router.navigate(['/']);
         }
       })
-  }
-
-  NewEmployeeForm: FormGroup = new FormGroup({
+      this.NewEmployeeForm = this.formBuilder.group
+  ({
     "firstName": new FormControl("", [Validators.required]),
     "lastName": new FormControl("", [Validators.required]),
     "tz": new FormControl("", [Validators.required]),
@@ -101,5 +101,7 @@ export class AddEmployeeComponent implements OnInit {
     "gender": new FormControl(0),
     "roles": this.roles
   })
+  }
+  
 
 }

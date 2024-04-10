@@ -1,4 +1,5 @@
-﻿using Mng.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Mng.Core.Entities;
 using Mng.Core.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,38 +16,38 @@ namespace Mng.Data.Repositories
         {
             _context = context;
         }
-        public IEnumerable<Role> GetRoles()
+        public async Task<IEnumerable<Role>> GetRoles()
         {
-            return _context.Role.ToList();
+            return await _context.Role.ToListAsync();
         }
 
-        public Role GetRoleById(int id)
+        public async Task<Role> GetRoleById(int id)
         {
-            return _context.Role.Where(r => r.Id == id).First();
+            return await _context.Role.Where(r => r.Id == id).FirstAsync();
         }
 
-        public Role Post(Role role)
+        public async Task<Role> Post(Role role)
         {
             _context.Role.Add(role);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return role;
         }
 
-        public Role Put(int id, Role role)
+        public async Task<Role> Put(int id, Role role)
         {
-            var currentRole = GetRoleById(id);
+            var currentRole = await GetRoleById(id);
             if (currentRole == null)
             {
                 return null;
             }
             role.Id = currentRole.Id;
             _context.Entry(currentRole).CurrentValues.SetValues(role);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return currentRole;
         }
-        public void Delete(int id)
+        public async void Delete(int id)
         {
-            var role = GetRoleById(id);
+            var role = await GetRoleById(id);
             _context.Role.Remove(role);
             _context.SaveChanges();
         }

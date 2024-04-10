@@ -9,10 +9,10 @@ namespace Mng.Core.Services
 {
     public interface IRoleService
     {
-        public IEnumerable<Role> GetRoles();
-        public Role GetRoleById(int id);
-        public Role Post(Role role);
-        public Role Put(int id, Role role);
+        public Task<IEnumerable<Role>> GetRoles();
+        public Task<Role> GetRoleById(int id);
+        public Task<Role> Post(Role role);
+        public Task<Role> Put(int id, Role role);
         public void Delete(int id);
     }
 }
