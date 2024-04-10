@@ -39,13 +39,12 @@
             <label for="beginningOfWork">Entry Date:</label>
             <input type="date" id="beginningOfWork" class="form-control" formControlName="beginningOfWork">
         </div><br>
-        <span (click)="addRoles()" class="material-symbols-outlined clickMe">
+        <span (click)="addRoles()" title="Roles" class="material-symbols-outlined clickMe">
             school
         </span><br>
     <div *ngFor="let i of range(1, countAdd)">
-        <app-add-role-to-employee  [fromEdit]="fromEdit" [employee]="employee" (dataEvent)="addItem($event)"></app-add-role-to-employee>
+        <app-add-role-to-employee (deleteRoleEvent)="deleteRole($event)" [fromEdit]="fromEdit" [employee]="employee" (dataEvent)="addItem($event)"></app-add-role-to-employee>
     </div>
-    <app-add-role-to-employee (deleteRoleEvent)="deleteRole($event)"></app-add-role-to-employee>
         <button type="submit" class="btn btn-outline-success" [disabled]="!this.EditEmployeeForm.valid"
             (click)="updateEmployee()"><span class="material-symbols-outlined">
                 save
