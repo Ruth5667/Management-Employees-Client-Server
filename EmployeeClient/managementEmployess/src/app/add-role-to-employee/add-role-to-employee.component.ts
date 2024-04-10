@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RoleToEmployeeService } from '../services/roleToEmployee.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RolesService } from '../services/roles.service';
-import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Role } from '../models/role.models';
 import { RoleToEmployee } from '../models/roleToEmployee';
 import Swal from 'sweetalert2';
@@ -20,16 +17,10 @@ import { Employee } from '../models/employee.model';
 
 export class AddRoleToEmployeeComponent implements OnInit {
   @Output() dataEvent = new EventEmitter<RoleToEmployee>();
-  // @Input() employee!: Employee;
   @Input() employee!: Employee;
   public rolesList: Role[] = [];
   public updatedRole!: Role;
   public selectedRoles: RoleToEmployee[] = [];
-  // role: FormControl<Role> = new FormControl<Role>({ id:0,name:""});
-  // set currentEmployee(value: Employee) {
-  //   console.log("###########3",value)
-  //   this.employee = value;
-  // }
   showFormRole!: boolean;
   hasRoles!: boolean;
   @Input() fromEdit!: boolean;
@@ -42,26 +33,21 @@ export class AddRoleToEmployeeComponent implements OnInit {
         Swal.fire({
           icon: 'error',
           title: 'OOPS...',
-          text: 'err',
+          text: err,
         })
       }
     })
-    // this.currentEmployee=this.employee;
-    console.log("###########3", this.employee)
     if (this.employee && this.employee.roles) {
       this.roleData.addControl("roleId", new FormControl());
       for (var i = 0; i < this.employee.roles.length; i++) {
-        console.log("selectedRoles", this.selectedRoles);
-        console.log("###########4", this.employee.roles[i] as RoleToEmployee)
         this.roleData.setValue(this.employee.roles[i] as RoleToEmployee);
         this.selectedRoles.push(this.employee.roles[i] as RoleToEmployee);
-        console.log("selectedRoles", this.selectedRoles);
       }
       this.selectedRoles.forEach(selectedRole => {
         if (selectedRole.roleId !== undefined) {
           this._roleService.getById(selectedRole.roleId).subscribe({
             next: (role) => {
-              selectedRole.role = role; // החלפת האובייקט במערך באובייקט שהתקבל מהשרת
+              selectedRole.role = role;
             },
             error: (error) => {
               console.error('Error fetching role by ID:', error);
@@ -69,26 +55,19 @@ export class AddRoleToEmployeeComponent implements OnInit {
           });
         }
       });
-
     }
   }
   selectedRoleId!: string;
-
   onRoleSelected(event: Event) {
     const selectedRoleId = (event.currentTarget as HTMLSelectElement).value;
     this.selectedRoleId = selectedRoleId;
-
   }
-
   addRoleToEmployee() {
     var rolese = this.selectedRoleId?.split('|');
-    // this.updatedRole=({ id: parseInt(rolese[0]), name:rolese[1] });
     this.roleData.controls['role'].setValue({ id: parseInt(rolese[0]), name: rolese[1] });
     this.dataEvent.emit(this.roleData.value as RoleToEmployee);
     this.selectedRoles.push(this.roleData.value as RoleToEmployee);
-    console.log("selectedRoles", this.selectedRoles);
     this.selectedRoleId = this.roleData.value.role.id.toString();
-    // this.updatedRoles.push(this.roleData.value as RoleToEmployee);
     Swal.fire({
       icon: 'success',
       text: 'The role added!',
@@ -96,16 +75,10 @@ export class AddRoleToEmployeeComponent implements OnInit {
       timer: 2000,
 
     })
-    // this.showFormRole=false;
-
   }
-
-  //@Input() RoleToEmployee{employeeId: number,roleId:number};
-  // @Input() ;
-  constructor(private _roleToEmployeeService: RoleToEmployeeService, private _roleService: RolesService, private router: Router) { }
-
+  constructor(private _roleService: RolesService) { }
   roleData: FormGroup = new FormGroup({
-    "beginningOfWork": new FormControl(new Date,[Validators.required]),
+    "beginningOfWork": new FormControl(new Date, [Validators.required]),
     "management": new FormControl(false),
     "role": new FormControl<Role>({ "id": 1, "name": "" })
   });

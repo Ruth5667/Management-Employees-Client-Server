@@ -5,14 +5,10 @@ export class Employee {
     firstName!: string
     lastName!: string
     dateOfBirth!: Date
-    gender!: Number
+    gender!: number
     beginningOfWork!: Date
     status?: boolean
     roles?: RoleToEmployee[] = []
-
 }
-// enum Gender {
-//     Male,
-//     Female
-// }
+
 

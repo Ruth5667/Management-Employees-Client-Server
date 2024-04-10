@@ -8,28 +8,28 @@
   }
   
   .navbar-nav {
-    list-style-type: none; /* מוחק את הנקודות מהרשימה */
+    list-style-type: none;
     padding: 0;
     margin: 0;
     display: flex;
-    /* align-items: center; יישור האלמנטים למרכז */
+   
   }
   
   .nav-item {
-    margin-right: 20px; /* ריווח בין הפריטים */
+    margin-right: 20px;
   }
   
   .nav-link {
-    color: white; /* צבע הטקסט */
-    text-decoration: none; /* מוחק קישורים תחתונים */
+    color: white;
+    text-decoration: none;
   }
   
   .nav-link:hover {
-    color: #d12727; /* צבע הטקסט בעכבר מעל הקישור */
+    color: #d12727;
   }
   
 span{
-    color: white; /* צבע הטקסט */
+    color: white;
     cursor: pointer;
 }
 .material-symbols-outlined {

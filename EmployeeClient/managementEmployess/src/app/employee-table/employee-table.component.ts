@@ -4,14 +4,10 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from '../services/employee.service';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import * as ExcelJS from 'ExcelJS';
 import { saveAs } from 'file-saver'
-
-
 @Component({
     selector: 'app-employee-table',
     standalone: true,
@@ -27,7 +23,6 @@ export class EmployeeTableComponent implements OnInit {
     })
     ngOnInit(): void {
         this.filterForm.valueChanges.subscribe(form => {
-            // if(form.search)
             this.employeesListByFilter = this.employeesList.filter(employee =>
                 employee.firstName.toLocaleLowerCase().includes(form.search.toLocaleLowerCase()) ||
                 employee.lastName.toLowerCase().includes(form.search.toLocaleLowerCase()) ||
@@ -44,30 +39,26 @@ export class EmployeeTableComponent implements OnInit {
             })
     }
     constructor(private _employeeService: EmployeeService) { }
-   
-   
-    exportToExcel() { 
+    exportToExcel() {
         setTimeout(() => {
-        this.exportToExcel();
-      }, 5555);
-    
+            this.exportToExcel();
+        }, 5555);
+
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Employees');
-    
+
         // הוספת כותרות העמודות
         worksheet.addRow(['First Name', 'Last Name', 'Tz', 'Begining Of Job']);
-        console.log("[[[[[[[]]]]]]]",this.employeesList[2])
 
         // הוספת הנתונים מהטבלה
         this.employeesList.forEach(employee => {
-          worksheet.addRow([employee.firstName, employee.lastName, employee.tz, employee.beginningOfWork]);
+            worksheet.addRow([employee.firstName, employee.lastName, employee.tz, employee.beginningOfWork]);
         });
-        console.log("[[[[[[[]]]]]]]",this.employeesList[2])
 
         // שמירת הקובץ
         workbook.xlsx.writeBuffer().then((buffer: BlobPart) => {
-          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          saveAs(blob, 'Employees.xlsx');
+            const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+            saveAs(blob, 'Employees.xlsx');
         });
     }
 }

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RolesService } from '../services/roles.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EmployeeService } from '../services/employee.service';
 import { Employee } from '../models/employee.model';
-import { ActivatedRoute, Data, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AddRoleToEmployeeComponent } from "../add-role-to-employee/add-role-to-employee.component";
 import { RoleToEmployee } from '../models/roleToEmployee';
 // function tenYearsAfterValidator(control: FormControl): { [key: string]: boolean } | null {
@@ -23,7 +22,21 @@ import { RoleToEmployee } from '../models/roleToEmployee';
 //     return differenceInYears >= 10 ? null : { 'tenYearsAfter': true };
 //   };
 // }
+function validateIDNumber(id_num: string): boolean {
+  if (!id_num) return false;
 
+  const id_12_digits: number[] = [1, 2, 1, 2, 1, 2, 1, 2, 1];
+  id_num = id_num.padStart(9, '0');
+  let result: number = 0;
+
+  for (let i = 0; i < 9; i++) {
+    let num: number = parseInt(id_num.charAt(i)) * id_12_digits[i];
+    num = num >= 10 ? Math.floor(num / 10) + (num % 10) : num;
+    result += num;
+  }
+
+  return result % 10 === 0;
+}
 @Component({
   selector: 'app-edit-employe',
   standalone: true,
@@ -39,17 +52,16 @@ export class EditEmployeComponent implements OnInit {
   editRoles!: boolean;
   addRole!: boolean;
   countAdd: number = 0;
-  EditEmployeeForm!: FormGroup; 
+  EditEmployeeForm!: FormGroup;
   today = new Date();
   tenYearsAgo = new Date(this.today.getFullYear() - 10, this.today.getMonth(), this.today.getDate());
+  tzFormControl: any;
   addRoles() {
     this.addRole = true
     this.fromEdit = true;
     this.countAdd++;
   }
   addItem($event: RoleToEmployee) {
-    // this.NewEmployeeForm.controls['roles'].setValue({...$event});
-    // this.roles.push($event);
     (this.EditEmployeeForm.get('roles') as FormArray).push(new FormControl($event));
     console.log(this.EditEmployeeForm);
   }
@@ -58,7 +70,13 @@ export class EditEmployeComponent implements OnInit {
   }
 
   updateEmployee() {
-    console.log("************", this.EditEmployeeForm.value as Employee)
+    this.tzFormControl = this.EditEmployeeForm.get('tz');
+    if (this.tzFormControl.value) {
+      if (!validateIDNumber(this.tzFormControl.value)) {
+        alert("tz is not valid")
+        return;
+      }
+    }
     this._employeeService.updateEmployee(this.EditEmployeeForm.value as Employee).subscribe({
       error: (err) => {
         Swal.fire({
@@ -73,7 +91,7 @@ export class EditEmployeComponent implements OnInit {
           text: 'updated succesfully',
           icon: 'success',
           showConfirmButton: false,
-          timer: 2000, // ללא כפתור
+          timer: 2000,
         });
         this.router.navigate(['/']);
       }
@@ -85,7 +103,7 @@ export class EditEmployeComponent implements OnInit {
   addNewRoles() {
     this.roles.push(new FormControl(''));
   }
-  constructor(private _employeeService: EmployeeService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _employeeService: EmployeeService, private router: Router, private route: ActivatedRoute, private formBuilder: FormBuilder) { }
   ngOnInit(): void {
     this.route.params.subscribe(param => {
       this.employeeId = param['employeeId']
@@ -93,7 +111,6 @@ export class EditEmployeComponent implements OnInit {
     });
     this._employeeService.getEmployeeById(this.employeeId).subscribe({
       next: (res) => {
-        console.log("=====", res)
         this.EditEmployeeForm.setValue({ ...res, roles: [] });
         const rolesList = res.roles ?? []
         for (let i = 0; i < rolesList.length; i++) {
@@ -101,14 +118,7 @@ export class EditEmployeComponent implements OnInit {
           this.roles.controls[i].setValue(rolesList[i])
         }
         this.employee = res
-        // this.EditEmployeeForm.controls['roles'].setValue(res.roles );
-        // this.EditEmployeeForm.setValue({
-        //   ...res,
-        //   roles: res.roles.map(role => this.fb.group(role))
-        // this.EditEmployeeForm.controls['roles'].setValue({...res.roles})       
         this.editRoles = true
-        console.log("++++++", this.EditEmployeeForm.value)
-
       },
     })
     // const dateOfBirthControl = this.EditEmployeeForm.get('dateOfBirth');
@@ -118,18 +128,18 @@ export class EditEmployeComponent implements OnInit {
     // } else {
     //   console.error('dateOfBirth control is not defined');
     // }
-    this.EditEmployeeForm = new FormGroup({
+    this.EditEmployeeForm = this.formBuilder.group({
       "id": new FormControl(1111),
-      "firstName": new FormControl("", [Validators.required]),
-      "lastName": new FormControl("", [Validators.required]),
-      "tz": new FormControl("", [Validators.required, Validators.maxLength(9), Validators.minLength(3)]),
+      "firstName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
+      "lastName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
+      "tz": new FormControl("", [Validators.required]),
       "dateOfBirth": new FormControl(new Date, [Validators.required]),
-      "beginningOfWork":new FormControl(new Date, [Validators.required]),
+      "beginningOfWork": new FormControl(new Date, [Validators.required]),
       "gender": new FormControl(0),
       "roles": new FormArray([])
     });
   }
- 
+
 
 
 
