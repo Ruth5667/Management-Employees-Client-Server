@@ -7,6 +7,8 @@ import { Employee } from '../models/employee.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AddRoleToEmployeeComponent } from "../add-role-to-employee/add-role-to-employee.component";
 import { RoleToEmployee } from '../models/roleToEmployee';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card';
 //valid Israel Identity:
 function validateIDNumber(id_num: string): boolean {
   if (!id_num) return false;
@@ -28,7 +30,7 @@ function validateIDNumber(id_num: string): boolean {
   standalone: true,
   templateUrl: './edit-employe.component.html',
   styleUrl: './edit-employe.component.css',
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, AddRoleToEmployeeComponent]
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, AddRoleToEmployeeComponent, MatCardModule, MatButtonModule]
 })
 export class EditEmployeComponent implements OnInit {
   fromEdit!: boolean;
