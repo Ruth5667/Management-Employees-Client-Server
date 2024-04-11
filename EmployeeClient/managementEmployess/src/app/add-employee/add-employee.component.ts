@@ -51,6 +51,9 @@ export class AddEmployeeComponent implements OnInit {
   range(start: number, end: number): number[] {
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
+  selectGender(genderValue: number) {
+    this.NewEmployeeForm.patchValue({ gender: genderValue });
+  }
   constructor(private formBuilder: FormBuilder, private _employeeService: EmployeeService, private _roleService: RolesService, private router: Router) { }
   public rolesList: Role[] = [];
   roles: FormArray<FormControl<RoleToEmployee>> = new FormArray<FormControl<RoleToEmployee>>([]);

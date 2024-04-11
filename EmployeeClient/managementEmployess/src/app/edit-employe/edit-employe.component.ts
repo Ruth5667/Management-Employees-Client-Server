@@ -46,32 +46,13 @@ export class EditEmployeComponent implements OnInit {
     this.countAdd++;
   }
   addItem($event: RoleToEmployee) {
-    // const rolesArray = this.EditEmployeeForm.get('roles') as FormArray;
-    // const newRoleControl = new FormControl($event);
-    // if (!rolesArray.controls.some(control => control.value === newRoleControl.value)) {
-    //   rolesArray.push(newRoleControl);
-    // } else {
-    //   alert('Control already exists in the FormArray');
-    // }
     (this.EditEmployeeForm.get('roles') as FormArray).push(new FormControl($event));
   }
   range(start: number, end: number): number[] {
     return Array.from({ length: end - start + 1 }, (_, index) => start + index);
   }
   deleteRole(index: number) {
-//     // const rolesArray = this.EditEmployeeForm.get('roles') as FormArray;
-//     // const index = rolesArray.controls.findIndex(control => control.value.roleId === roleId);
-//     // if (index !== -1) {
-//     //   rolesArray.removeAt(index);
-//     console.log(index,"index edit");
-    console.log((this.EditEmployeeForm.get('roles') as FormArray).at(index),"before");
-    (this.EditEmployeeForm.get('roles') as FormArray).removeAt(index);
-console.log((this.EditEmployeeForm.get('roles') as FormArray).at(index),"after")
-   
-//     // else {
-//     //   console.log('Role with ID', roleId, 'was not found');
-//     //}
-  
+    (this.EditEmployeeForm.get('roles') as FormArray).removeAt(index);  
  } 
   updateEmployee() {
     this.tzFormControl = this.EditEmployeeForm?.get('tz');
@@ -126,15 +107,19 @@ console.log((this.EditEmployeeForm.get('roles') as FormArray).at(index),"after")
       },
     })
     this.EditEmployeeForm = this.formBuilder.group({
-      "id": new FormControl(1111),
-      "firstName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
-      "lastName": new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
-      "tz": new FormControl("", [Validators.required]),
-      "dateOfBirth": new FormControl(new Date, [Validators.required, this.validateAge]),//Validate age
-      "beginningOfWork": new FormControl(new Date, [Validators.required, this.validateMinEntryDate]),//validete Begining Date
-      "gender": new FormControl(0),
-      "roles": new FormArray([])
+      id: new FormControl(1111),
+      firstName: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
+      lastName: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z]+$')]),
+      tz: new FormControl("", [Validators.required]),
+      dateOfBirth: new FormControl(new Date, [Validators.required, this.validateAge]),//Validate age
+      beginningOfWork: new FormControl(new Date, [Validators.required, this.validateMinEntryDate]),//validete Begining Date
+      gender: new FormControl(0),
+      roles: new FormArray([])
     });
+  }
+  
+  selectGender(genderValue: number) {
+    this.EditEmployeeForm.patchValue({ gender: genderValue });
   }
   validateAge(control: FormControl): { [key: string]: boolean } | null {
     const birthDate = new Date(control.value);

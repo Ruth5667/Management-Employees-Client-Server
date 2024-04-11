@@ -22,11 +22,15 @@
         <option *ngFor="let role of rolesList" [value]="role.id + '|' + role.name">{{role.name}}</option>
     </select>
     <div [formGroup]="this.roleData">
-        <label for="management">Management:</label>
+        <label for="management">Administrative:</label>
         <select id="management" class="form-select" formControlName="management">
             <option [value]="true">Is Management</option>
             <option [value]="false">Is Not Management</option>
         </select>
+       <!-- <br> -->
+        <!-- <mat-slide-toggle>Slide me!</mat-slide-toggle>
+
+        <br> -->
         <label for="beginningOfWork">Date of entry into the position:</label>
         <input type="date" class="form-control" id="beginningOfWork" formControlName="beginningOfWork">
         <button type="submit" class="btn btn-outline-success" [disabled]="!this.roleData.valid"

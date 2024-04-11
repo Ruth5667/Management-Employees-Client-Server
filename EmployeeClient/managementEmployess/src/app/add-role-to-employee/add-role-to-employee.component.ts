@@ -6,11 +6,13 @@ import { Role } from '../models/role.models';
 import { RoleToEmployee } from '../models/roleToEmployee';
 import Swal from 'sweetalert2';
 import { Employee } from '../models/employee.model';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+
 
 @Component({
   selector: 'app-add-role-to-employee',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatSlideToggleModule],
   templateUrl: './add-role-to-employee.component.html',
   styleUrl: './add-role-to-employee.component.css'
 })
@@ -98,6 +100,8 @@ export class AddRoleToEmployeeComponent implements OnInit {
     this.employee.roles?.splice(index,1);
     this.selectedRoles.splice(index,1);    
   }
+  
+  
 }
 
 

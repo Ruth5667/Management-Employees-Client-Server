@@ -13,7 +13,7 @@
         <br>
 
         <div class="form-group">
-            <label for="tz">Tz:</label>
+            <label for="tz">ID:</label>
             <input class="form-control" id="tz" formControlName="tz">
         </div><br>
 
@@ -23,18 +23,22 @@
         </div><br>
 
         <div class="form-group mb-3">
-            <label for="gender" class="form-label">Gender:</label>
-            <span class="material-symbols-outlined">
-                man
-            </span>
-            <span class="material-symbols-outlined">
-                woman
-            </span>
-            <select id="gender" class="form-select" formControlName="gender">
-                <option [value]="0">Male</option>
-                <option [value]="1">Female</option>
-            </select>
+            <label class="form-label">Gender:</label>
+        
+            <label class="material-symbols-outlined clickMe" title="Man" (click)="selectGender(0)">
+                <input type="radio"  style="display: none">
+                Man
+            </label>
+        
+            <label class="material-symbols-outlined clickMe" title="Woman" (click)="selectGender(1)">
+                <input type="radio"  style="display: none">
+                Woman
+            </label>
+        
+            <input type="hidden" id="gender" formControlName="gender">
+        
         </div>
+     
 
         <div class="form-group">
             <label for="beginningOfWork">Entry Date:</label>
